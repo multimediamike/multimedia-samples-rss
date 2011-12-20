@@ -1,0 +1,6 @@
+samples-rss.py is a Python script that generates an RSS feed based on the
+most recent files added to a directory structure. It was written to support
+the MPlayer samples repository at:
+
+http://samples.mplayerhq.hu/
+http://samples.libav.org/
