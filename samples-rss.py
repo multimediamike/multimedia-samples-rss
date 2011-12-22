@@ -9,7 +9,7 @@ import stat
 import time
 
 SAMPLES_DIR = "/media/sdb1/melanson/samples-mirror"
-DAYS_IN_HISTORY = 30
+DAYS_IN_HISTORY = 14
 SECONDS_PER_DAY = 60 * 60 * 24
 MPHQ_BASE_LINK = "http://samples.mplayerhq.hu/"
 LIBAV_BASE_LINK = "http://samples.libav.org/"
