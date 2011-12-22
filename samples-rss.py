@@ -55,8 +55,6 @@ for dirpath, dirnames, filenames in os.walk(SAMPLES_DIR):
       for i in xrange(DAYS_IN_HISTORY):
         if file_time > midnights[i]:
           break
-      # only need the relative path, not the absolute filesystem path
-      path = path[len(SAMPLES_DIR)+1:]
       file_lists[i].append(path)
 
 # iterate through the file lists, sort, and generate RSS items (1 item per day)
@@ -67,9 +65,18 @@ for i in xrange(DAYS_IN_HISTORY):
     description = "These samples were added or updated:\n<ul>\n"
     file_lists[i].sort()
     for f in file_lists[i]:
+      size = os.path.getsize(f)
+      if size < 1024:
+        size = "%d bytes" % (size)
+      elif size < (1024 * 1024):
+        size = "%d KiB" % (size / 1024)
+      else:
+        size = "%d MiB" % (size / (1024 * 1024))
+      # chop path down to relative path after obtaining filesize
+      f = f[len(SAMPLES_DIR)+1:]
       description += """
-        <li>%s [<a href="%s%s">s.mphq</a>], [<a href="%s%s">s.libav</a>]</li>
-      """ % (f, MPHQ_BASE_LINK, f, LIBAV_BASE_LINK, f)
+        <li>%s, %s [<a href="%s%s">s.mphq</a>], [<a href="%s%s">s.libav</a>]</li>
+      """ % (f, size, MPHQ_BASE_LINK, f, LIBAV_BASE_LINK, f)
     description += "</ul>\n"
     ts = time.localtime(midnights[i])
     pubDate = datetime.datetime(ts.tm_year, ts.tm_mon, ts.tm_mday, 0, 0, 0)
